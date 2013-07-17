@@ -22,7 +22,7 @@ var clientName = ask("What client are you reporting time for?",{
     onChoice: function(event) {
         say("OK " + workerName + ". You worked at " + event.value + ".");
     }
-);
+});
 
 
 // Main workflow is recording time
