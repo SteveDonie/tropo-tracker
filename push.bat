@@ -7,4 +7,4 @@ call git add .
 echo ----- git commit
 call git commit -m%1
 echo ----- git push
-call git push heroku master
+call git push
