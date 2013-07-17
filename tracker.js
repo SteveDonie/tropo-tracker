@@ -4,6 +4,7 @@ var workerName = ask("What is your name?",{
 	choices:"Julie, Alexa, Chereya, Janna, Jamie Jack, Allison, Reed, Bo, Tatiana",
 	timeouts: 10.0,
 	attempts: 3,
+	minConfidence: 0.7,
 	onBadChoice: function(event) {
         say("I'm sorry,  I don't know that name.");
     },
@@ -16,6 +17,7 @@ var clientName = ask("What client are you reporting time for?",{
 	choices:"",
 	timeouts: 10.0,
 	attempts: 3,
+	minConfidence: 0.7,
 	onBadChoice: function(event) {
         say("I'm sorry,  I don't know that client.");
     },
