@@ -18,24 +18,6 @@
 
 // Data Storage - use OData and Google AppEngine? Something else to learn!!
 
-answer();
-
-log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerId);
-
-log("Incoming call info [state:" + currentCall.state() +
-						",callerID:" + currentCall.callerID + 
-						",calledID:" + currentCall.calledID +
-						",callerName:" + currentCall.callerName + 
-						",calledName:" + currentCall.calledName)
-
-
-// If this is a voice call, use the voice path. If it is SMS or IM, use the text path.
-if (currentCall.channel == 'TEXT') {
-	handleText();
-} else {
-	handleVoice();
-}
-
 var workers = { 	"Julie" : { nameChoices: "Julie, Julie Donie", number: "15126190419" },
 					"Steve" : { nameChoices: "Steve, Steve Donie",    number: "15127977822" },
 					"Alexa" : { nameChoices: "Alexa, Alexa Villalobos",    number: "12176498591" } };
@@ -52,22 +34,43 @@ function listOptions( theContacts )
   }
   return s;
 }
-					
-function handleVoice() {
-	say ("Welcome to the Fertile Ground Time Tracker");
 
-	var workerName = ask("What is your name?",{
-		choices:listOptions(workers),
+function lookupWorker(phoneNumber) {
+	for (var worker in workers) {
+		if (workers[worker].number == phoneNumber) {
+			return worker;
+		}
+	}
+	return null;
+}
+
+function getAnswerToQuestion (question, options, errorMessage) {
+	var event = ask(question,{
+		choices: options,
 		timeouts: 10.0,
 		attempts: 3,
 		minConfidence: 0.7,
 		onBadChoice: function(event) {
-			say("I'm sorry,  I don't know that name.");
-		},
-		onChoice: function(event) {
-			say("Thanks " + event.value + ".");
+			say(errorMessage);
 		}
 	});
+
+	if (event.name='choice') {
+		return event.value;
+	} else {
+		say ("This doesn't seem to be working. Sorry!");
+		hangup();
+		
+	}
+}
+
+function handleVoice() {
+	say ("Welcome to the Fertile Ground Time Tracker");
+
+	log ("############################# asking for user name - choices are " + listOptions(workers) );
+	
+	
+	var workerName = getAnswerToQuestion("What is your name?", listOptions(workers), "I'm sorry, I don't recognize that name");
 		
 	var clientName = ask("What client are you reporting time for?",{
 		choices:"Binder, ",
@@ -78,7 +81,7 @@ function handleVoice() {
 			say("I'm sorry,  I don't know that client.");
 		},
 		onChoice: function(event) {
-			say("OK " + workerName.value + ". You worked at " + event.value + ".");
+			say("OK " + workerName + ". You worked at " + event.value + ".");
 		},
 	});
 
@@ -91,7 +94,7 @@ function handleVoice() {
 			say("I'm sorry,  I didn't understand that.");
 		},
 		onChoice: function(event) {
-			say("Thanks " + workerName.value + ". I heard you say that you worked on " + event.value + ".");
+			say("Thanks " + workerName + ". I heard you say that you worked on " + event.value + ".");
 		}
 	});
 
@@ -104,7 +107,7 @@ function handleVoice() {
 			say("I'm sorry,  I didn't understand that.");
 		},
 		onChoice: function(event) {
-			say("Thanks " + workerName.value + ". I heard you say that you worked for " + event.value + " hours.");
+			say("Thanks " + workerName + ". I heard you say that you worked for " + event.value + " hours.");
 		}
 	});
 
@@ -117,15 +120,43 @@ function handleVoice() {
 			say("I'm sorry,  I didn't understand that.");
 		},
 		onChoice: function(event) {
-			say("Thanks " + workerName.value + ". I heard you say that you worked for " + event.value + " minutes.");
+			say("Thanks " + workerName + ". I heard you say that you worked for " + event.value + " minutes.");
 		}
 	});
 
-	say ("Thanks for recording your time " + workerName.value + "! " + " To summarize, you worked " + durationHours.value + " hours and " + durationMinutes.value + " minutes  at " + clientName.value + " on " + dateWorked.value + " .");
+	say ("Thanks for recording your time " + workerName + "! " + " To summarize, you worked " + durationHours.value + " hours and " + durationMinutes.value + " minutes  at " + clientName.value + " on " + dateWorked.value + " .");
 
 	hangup();
 }
 
 function handleText() {
+	var worker = lookupWorker(currentCall.callerId);
+	if (worker == null) {
+		worker = ask ("Welcome to the Fertile Ground Time Tracker. What is your name?");
+	}
+	var flowMethod = ask("Hi " + worker + ". There are two ways to interact with this system by SMS. You can use 1) the interview method or 2) the direct entry method.");
+	if (flowMethod.value == "1") {
+		handleTextInterview();
+	} else if (flowMethod.value == "2") {
+		handleTextDirectInput();
+	}
+}
 
+// MAIN
+answer();
+
+log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerId);
+
+log("Incoming call info [state:" + currentCall.state() +
+						",callerID:" + currentCall.callerID + 
+						",calledID:" + currentCall.calledID +
+						",callerName:" + currentCall.callerName + 
+						",calledName:" + currentCall.calledName)
+
+
+// If this is a voice call, use the voice path. If it is SMS or IM, use the text path.
+if (currentCall.channel == 'TEXT') {
+	handleText();
+} else {
+	handleVoice();
 }
