@@ -49,7 +49,10 @@ if (worker == null) {
 		timeout: 90.0
 		});
 }
-var flowMethod = ask("Hi " + worker + ". There are two ways to interact with this system by SMS. You can use 1) the interview method or 2) the direct entry method.");
+var flowMethod = ask("Hi " + worker + ". There are two ways to interact with this system by SMS. You can use 1) the interview method or 2) the direct entry method.",{
+	choices: "1,2",
+	timeout: 90.0
+	});
 if (flowMethod.value == "1") {
 	handleTextInterview();
 } else if (flowMethod.value == "2") {
