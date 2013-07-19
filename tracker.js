@@ -1,81 +1,3 @@
-answer();
-
-log ("receiving " + currentCall.channel + " call from " + currentCall.callerId);
-
-// If this is a voice call, use the voice path. If it is SMS or IM, use the text path.
-
-say ("Welcome to the Fertile Ground Time Tracker");
-
-
-var workerName = ask("What is your name?",{
-	choices:"Julie, Alexa, Chereya, Janna, Jamie Jack, Allison, Reed, Bo, Tatiana",
-	timeouts: 10.0,
-	attempts: 3,
-	minConfidence: 0.7,
-	onBadChoice: function(event) {
-        say("I'm sorry,  I don't know that name.");
-    },
-    onChoice: function(event) {
-        say("Thanks " + event.value + ".");
-    }
-});
-	
-var clientName = ask("What client are you reporting time for?",{
-	choices:"Binder, ",
-	timeouts: 10.0,
-	attempts: 3,
-	minConfidence: 0.7,
-	onBadChoice: function(event) {
-        say("I'm sorry,  I don't know that client.");
-    },
-    onChoice: function(event) {
-        say("OK " + workerName.value + ". You worked at " + event.value + ".");
-    },
-});
-
-var dateWorked = ask("What day are you reporting this time for? Right now I understand dates like 'January first two thousand thirteen'.",{
-	choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/date.xml',
-	timeouts: 10.0,
-	attempts: 3,
-	minConfidence: 0.7,
-	onBadChoice: function(event) {
-        say("I'm sorry,  I didn't understand that.");
-    },
-    onChoice: function(event) {
-        say("Thanks " + workerName.value + ". I heard you say that you worked on " + event.value + ".");
-    }
-});
-
-var durationHours = ask("OK, just two more questions. How many hours did you work at " + clientName.value + " on " + dateWorked.value + " ? This should be a whole number.",{
-	choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/wholenumbers.xml',
-	timeouts: 10.0,
-	attempts: 3,
-	minConfidence: 0.7,
-	onBadChoice: function(event) {
-        say("I'm sorry,  I didn't understand that.");
-    },
-    onChoice: function(event) {
-        say("Thanks " + workerName.value + ". I heard you say that you worked for " + event.value + " hours.");
-    }
-});
-
-var durationMinutes = ask("Last question. In addition to the " + durationHours.value + " hours, how many minutes did you work at " + clientName.value + " on " + dateWorked.value + " ? This should be a whole number.",{
-	choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/wholenumbers.xml',
-	timeouts: 10.0,
-	attempts: 3,
-	minConfidence: 0.7,
-	onBadChoice: function(event) {
-        say("I'm sorry,  I didn't understand that.");
-    },
-    onChoice: function(event) {
-        say("Thanks " + workerName.value + ". I heard you say that you worked for " + event.value + " minutes.");
-    }
-});
-
-say ("Thanks for recording your time " + workerName.value + "! " + " To summarize, you worked " + durationHours.value + " hours and " + durationMinutes.value + " minutes  at " + clientName.value + " on " + dateWorked.value + " .");
-
-hangup();
-
 // Main workflow is recording time
 // We want to record the following information:
 // - worker name
@@ -95,3 +17,115 @@ hangup();
 // 
 
 // Data Storage - use OData and Google AppEngine? Something else to learn!!
+
+answer();
+
+log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerId);
+
+log("Incoming call info [state:" + currentCall.state() +
+						",callerID:" + currentCall.callerID + 
+						",calledID:" + currentCall.calledID +
+						",callerName:" + currentCall.callerName + 
+						",calledName:" + currentCall.calledName)
+
+
+// If this is a voice call, use the voice path. If it is SMS or IM, use the text path.
+if (currentCall.channel == 'TEXT') {
+	handleText();
+} else {
+	handleVoice();
+}
+
+var workers = { 	"Julie" : { nameChoices: "Julie, Julie Donie", number: "15126190419" },
+					"Steve" : { nameChoices: "Steve, Steve Donie",    number: "15127977822" },
+					"Alexa" : { nameChoices: "Alexa, Alexa Villalobos",    number: "12176498591" } };
+
+// -----------
+// turn the contacts into a comma separated list of options for each contact (simple grammar)
+function listOptions( theContacts )
+{
+  var s ='';
+  for( var contact in theContacts )
+  {
+    if (s != '') { s = s + ", " };
+    s = s + contact + " (" + theContacts[ contact ].nameChoices + ")";
+  }
+  return s;
+}
+					
+function handleVoice() {
+	say ("Welcome to the Fertile Ground Time Tracker");
+
+	var workerName = ask("What is your name?",{
+		choices:listOptions(workers),
+		timeouts: 10.0,
+		attempts: 3,
+		minConfidence: 0.7,
+		onBadChoice: function(event) {
+			say("I'm sorry,  I don't know that name.");
+		},
+		onChoice: function(event) {
+			say("Thanks " + event.value + ".");
+		}
+	});
+		
+	var clientName = ask("What client are you reporting time for?",{
+		choices:"Binder, ",
+		timeouts: 10.0,
+		attempts: 3,
+		minConfidence: 0.7,
+		onBadChoice: function(event) {
+			say("I'm sorry,  I don't know that client.");
+		},
+		onChoice: function(event) {
+			say("OK " + workerName.value + ". You worked at " + event.value + ".");
+		},
+	});
+
+	var dateWorked = ask("What day are you reporting this time for? Right now I understand dates like 'January first two thousand thirteen'.",{
+		choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/date.xml',
+		timeouts: 10.0,
+		attempts: 3,
+		minConfidence: 0.7,
+		onBadChoice: function(event) {
+			say("I'm sorry,  I didn't understand that.");
+		},
+		onChoice: function(event) {
+			say("Thanks " + workerName.value + ". I heard you say that you worked on " + event.value + ".");
+		}
+	});
+
+	var durationHours = ask("OK, just two more questions. How many hours did you work at " + clientName.value + " on " + dateWorked.value + " ? This should be a whole number.",{
+		choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/wholenumbers.xml',
+		timeouts: 10.0,
+		attempts: 3,
+		minConfidence: 0.7,
+		onBadChoice: function(event) {
+			say("I'm sorry,  I didn't understand that.");
+		},
+		onChoice: function(event) {
+			say("Thanks " + workerName.value + ". I heard you say that you worked for " + event.value + " hours.");
+		}
+	});
+
+	var durationMinutes = ask("Last question. In addition to the " + durationHours.value + " hours, how many minutes did you work at " + clientName.value + " on " + dateWorked.value + " ? This should be a whole number.",{
+		choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/wholenumbers.xml',
+		timeouts: 10.0,
+		attempts: 3,
+		minConfidence: 0.7,
+		onBadChoice: function(event) {
+			say("I'm sorry,  I didn't understand that.");
+		},
+		onChoice: function(event) {
+			say("Thanks " + workerName.value + ". I heard you say that you worked for " + event.value + " minutes.");
+		}
+	});
+
+	say ("Thanks for recording your time " + workerName.value + "! " + " To summarize, you worked " + durationHours.value + " hours and " + durationMinutes.value + " minutes  at " + clientName.value + " on " + dateWorked.value + " .");
+
+	hangup();
+}
+
+function handleText() {
+
+}
