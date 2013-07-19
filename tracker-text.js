@@ -28,7 +28,7 @@ function lookupWorker(phoneNumber) {
 // MAIN
 answer();
 
-log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerId);
+log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerID);
 
 log("Incoming call info [state:" + currentCall.state() +
 						",callerID:" + currentCall.callerID + 
@@ -36,7 +36,7 @@ log("Incoming call info [state:" + currentCall.state() +
 						",callerName:" + currentCall.callerName + 
 						",calledName:" + currentCall.calledName)
 
-var worker = lookupWorker(currentCall.callerId);
+var worker = lookupWorker(currentCall.callerID);
 
 if (worker == null) {
 	worker = ask ("Welcome to the Fertile Ground Time Tracker. What is your name?",
