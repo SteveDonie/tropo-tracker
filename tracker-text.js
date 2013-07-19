@@ -24,17 +24,21 @@ function lookupWorker(phoneNumber) {
 	return null;
 }
 
+function handleTextDirectInput() {
+	var result = ask("Reply with clientname, hours, and date (optional) i.e 'Binder 4.5' or 'Davenport 3.25 7-21' If you omit the date, it uses today's date.",
+	{
+		choices: "[ANY]",
+		timeout: 300.0,
+		onChoice: function (event) { 
+			say("Thanks - recorded " + event.value);
+		}
+	});
+}
 
 // MAIN
 answer();
 
 log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerID);
-
-log("Incoming call info [state:" + currentCall.state() +
-						",callerID:" + currentCall.callerID + 
-						",calledID:" + currentCall.calledID +
-						",callerName:" + currentCall.callerName + 
-						",calledName:" + currentCall.calledName)
 
 var worker = lookupWorker(currentCall.callerID);
 
@@ -42,7 +46,7 @@ if (worker == null) {
 	worker = ask ("Welcome to the Fertile Ground Time Tracker. What is your name?",
 		{
 		choices: listOptions(workers),
-		timeout: 90
+		timeout: 90.0
 		});
 }
 var flowMethod = ask("Hi " + worker + ". There are two ways to interact with this system by SMS. You can use 1) the interview method or 2) the direct entry method.");
