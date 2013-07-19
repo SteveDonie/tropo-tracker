@@ -6,6 +6,22 @@
 	<!-- original from https://gist.github.com/mheadd/793456/raw/89a41d1735487c215fdd0bbb43801aa78d19b7e1/date.xml -->
 	<!-- Main gramar rule -->
 	<rule id="main" scope="public">
+		<one-of>
+			<ruleref uri="#HumanDates" />
+			<ruleref uri="#MonthDayYear" />
+		</one-of>
+	</rule>
+	
+	<!-- Sub rule for 'Human' dates like today, yesterday, two days ago, Monday, etc. -->
+	<rule id="HumanDates" scope="private">
+		<one-of>
+			<item>today</item>
+			<item>yesterday</item>
+		</one-of>
+	</rule>
+	
+	<!-- Sub rule for Month Day Year -->
+	<rule id="MonthDayYear" scope="private">
 		<tag>$="";</tag>
 		<item>
 			<ruleref uri="#month" />
