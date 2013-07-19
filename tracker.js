@@ -1,4 +1,7 @@
+log ("receiving " + currentCall.channel + " call from " + currentCall.callerId);
+
 say ("Welcome to the Fertile Ground Time Tracker");
+
 
 var workerName = ask("What is your name?",{
 	choices:"Julie, Alexa, Chereya, Janna, Jamie Jack, Allison, Reed, Bo, Tatiana",
@@ -14,7 +17,7 @@ var workerName = ask("What is your name?",{
 });
 	
 var clientName = ask("What client are you reporting time for?",{
-	choices:"",
+	choices:"Binder, ",
 	timeouts: 10.0,
 	attempts: 3,
 	minConfidence: 0.7,
@@ -23,9 +26,51 @@ var clientName = ask("What client are you reporting time for?",{
     },
     onChoice: function(event) {
         say("OK " + workerName + ". You worked at " + event.value + ".");
+    },
+});
+
+var date = ask("What day are you reporting this time for? Right now I understand dates like 'January first two thousand thirteen'.",{
+	choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/date.xml',
+	timeouts: 10.0,
+	attempts: 3,
+	minConfidence: 0.7,
+	onBadChoice: function(event) {
+        say("I'm sorry,  I didn't understand that.");
+    },
+    onChoice: function(event) {
+        say("Thanks " + workerName + ". I heard you say that you worked on " + event.value + ".");
     }
 });
 
+var durationHours = ask("OK, just two more questions. How many hours did you work at " + clientName + " on " + date + " ? This should be a whole number.",{
+	choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/wholenumbers.xml',
+	timeouts: 10.0,
+	attempts: 3,
+	minConfidence: 0.7,
+	onBadChoice: function(event) {
+        say("I'm sorry,  I didn't understand that.");
+    },
+    onChoice: function(event) {
+        say("Thanks " + workerName + ". I heard you say that you worked for " + event.value + " hours.");
+    }
+});
+
+var durationMinutes = ask("Last question. In addition to the " + durationHours + " hours, how many minutes did you work at " + clientName + " on " + date + " ? This should be a whole number.",{
+	choices: 'https://raw.github.com/SteveDonie/tropo-tracker/master/wholenumbers.xml',
+	timeouts: 10.0,
+	attempts: 3,
+	minConfidence: 0.7,
+	onBadChoice: function(event) {
+        say("I'm sorry,  I didn't understand that.");
+    },
+    onChoice: function(event) {
+        say("Thanks " + workerName + ". I heard you say that you worked for " + event.value + " minutes.");
+    }
+});
+
+say ("Thanks for recording your time " + workerName + "! " + " To summarize, you worked " + durationHours + " hours and " + durationMinutes + " minutes  at " + clientName + " on " + date + " .");
+
+hangup();
 
 // Main workflow is recording time
 // We want to record the following information:

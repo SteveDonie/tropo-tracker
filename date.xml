@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1"?>
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/2001/06/grammar http://www.w3.org/TR/speech-grammar/grammar.xsd"
+	version="1.0" xml:lang="en-US" mode="voice" root="main">
+
+	<!-- original from https://gist.github.com/mheadd/793456/raw/89a41d1735487c215fdd0bbb43801aa78d19b7e1/date.xml -->
+	<!-- Main gramar rule -->
+	<rule id="main" scope="public">
+		<tag>$="";</tag>
+		<item>
+			<ruleref uri="#month" />
+			<tag>$ = $ + $month;</tag>
+		</item>
+		<item>
+			<ruleref uri="#day" />
+			<tag>$ = $ + "/" + $day;</tag>
+		</item>
+		<item>
+			<ruleref uri="#year" />
+			<tag>$ = $ + "/" + $year;</tag>
+		</item>
+	</rule>
+
+	<!-- Sub rule for month -->
+	<rule id="month" scope="private">
+		<tag>$="";</tag>
+		<one-of>
+			<item>
+				january
+				<tag>$ = $ + "01";</tag>
+			</item>
+			<item>
+				february
+				<tag>$ = $ + "02";</tag>
+			</item>
+			<item>
+				march
+				<tag>$ = $ + "03";</tag>
+			</item>
+			<item>
+				april
+				<tag>$ = $ + "04";</tag>
+			</item>
+			<item>
+				may
+				<tag>$ = $ + "05";</tag>
+			</item>
+			<item>
+				june
+				<tag>$ = $ + "06";</tag>
+			</item>
+			<item>
+				july
+				<tag>$ = $ + "07";</tag>
+			</item>
+			<item>
+				august
+				<tag>$ = $ + "08";</tag>
+			</item>
+			<item>
+				september
+				<tag>$ = $ + "09";</tag>
+			</item>
+			<item>
+				october
+				<tag>$ = $ + "10";</tag>
+			</item>
+			<item>
+				november
+				<tag>$ = $ + "11";</tag>
+			</item>
+			<item>
+				december
+				<tag>$ = $ + "12";</tag>
+			</item>
+		</one-of>
+	</rule>
+
+	<!-- Sub rule for day -->
+	<rule id="day" scope="private">
+		<tag>$="";</tag>
+		<one-of>
+			<item>
+				first
+				<tag>$ = $ + "01";</tag>
+			</item>
+			<item>
+				second
+				<tag>$ = $ + "02";</tag>
+			</item>
+			<item>
+				third
+				<tag>$ = $ + "03";</tag>
+			</item>
+			<item>
+				fourth
+				<tag>$ = $ + "04";</tag>
+			</item>
+			<item>
+				fifth
+				<tag>$ = $ + "05";</tag>
+			</item>
+			<item>
+				sixth
+				<tag>$ = $ + "06";</tag>
+			</item>
+			<item>
+				seventh
+				<tag>$ = $ + "07";</tag>
+			</item>
+			<item>
+				eight
+				<tag>$ = $ + "08";</tag>
+			</item>
+			<item>
+				ninth
+				<tag>$ = $ + "09";</tag>
+			</item>
+			<item>
+				tenth
+				<tag>$ = $ + "10";</tag>
+			</item>
+			<item>
+				eleventh
+				<tag>$ = $ + "11";</tag>
+			</item>
+			<item>
+				twetlth
+				<tag>$ = $ + "12";</tag>
+			</item>
+			<item>
+				thirteenth
+				<tag>$ = $ + "13";</tag>
+			</item>
+			<item>
+				fourteenth
+				<tag>$ = $ + "14";</tag>
+			</item>
+			<item>
+				fifteenth
+				<tag>$ = $ + "15";</tag>
+			</item>
+			<item>
+				sisteenth
+				<tag>$ = $ + "16";</tag>
+			</item>
+			<item>
+				seventeenth
+				<tag>$ = $ + "17";</tag>
+			</item>
+			<item>
+				eighteenth
+				<tag>$ = $ + "18";</tag>
+			</item>
+			<item>
+				ninteenth
+				<tag>$ = $ + "19";</tag>
+			</item>
+			<item>
+				twentieth
+				<tag>$ = $ + "20";</tag>
+			</item>
+			<item>
+				twenty first
+				<tag>$ = $ + "21";</tag>
+			</item>
+			<item>
+				twenty second
+				<tag>$ = $ + "22";</tag>
+			</item>
+			<item>
+				twenty third
+				<tag>$ = $ + "23";</tag>
+			</item>
+			<item>
+				twenth fourth
+				<tag>$ = $ + "24";</tag>
+			</item>
+			<item>
+				twenty fifth
+				<tag>$ = $ + "25";</tag>
+			</item>
+			<item>
+				twenth sixth
+				<tag>$ = $ + "26";</tag>
+			</item>
+			<item>
+				twenty seventh
+				<tag>$ = $ + "27";</tag>
+			</item>
+			<item>
+				twenty eighth
+				<tag>$ = $ + "28";</tag>
+			</item>
+			<item>
+				twenty ninth
+				<tag>$ = $ + "29";</tag>
+			</item>
+			<item>
+				thirtieth
+				<tag>$ = $ + "30";</tag>
+			</item>
+			<item>
+				thirty first
+				<tag>$ = $ + "31";</tag>
+			</item>
+		</one-of>
+	</rule>
+
+	<!-- Sub rule for year -->
+	<rule id="year" scope="private">
+		<tag>$="";</tag>
+		<one-of>
+			<item>
+				two thousand eleven
+				<tag>$ = $ + "2011";</tag>
+			</item>
+			<item>
+				two thousand twelve
+				<tag>$ = $ + "2012";</tag>
+			</item>
+			<item>
+				two thousand thirteen
+				<tag>$ = $ + "2013";</tag>
+			</item>
+			<item>
+				two thousand fourteen
+				<tag>$ = $ + "2014";</tag>
+			</item>
+			<item>
+				two thousand fifteen
+				<tag>$ = $ + "2015";</tag>
+			</item>
+			<item>
+				two thousand sixteen
+				<tag>$ = $ + "2016";</tag>
+			</item>
+			<item>
+				two thousand seventeen
+				<tag>$ = $ + "2017";</tag>
+			</item>
+			<item>
+				two thousand eighteen
+				<tag>$ = $ + "2018";</tag>
+			</item>
+		</one-of>
+	</rule>
+</grammar>

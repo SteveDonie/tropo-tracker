@@ -1,0 +1,149 @@
+Getting started with Heroku and Node.js
+
+signed up for Heroku account
+\installaed heroku toolbelt
+already had git installed, so I didn't need taht
+looked up recomended nodejs project structure
+installed node.js using windows installer
+
+started with example node app from heroku
+
+problems:
+package.json didn't parse right when trying to install node dependencies.
+Why!?
+Seems to be a problem with the format. Needed to convert to DOS line endings
+
+npm install fails - wrong version of express - going to exspress website, following things tehre
+changed version of express in my package.json from 2.2.0 to 2.5.0 and that worked
+
+I now have directory structure:
+project
+ - node_modules
+
+got up to 'foreman start' step - browsed w ff to localhost:5000, it works!
+
+pushed to heroku - it is live on the web
+renamed the app - could have done that when I created the app, but I dodn't know
+
+did some DNS stuff - 1and1 allowed me to set up a subdomain. I really think all I needed was a CNAME, but I am not sure how to do that with 1and1
+- doing CNAME or ANAME is difficult with 1and1. For now, I have time.fertilegroundgardens.com as a redirect to fgtimetracking.herokuapp.com
+
+Looking at different ways to structure a node app. Lots of different stuff out there
+I don't speak javascript very well, need to get some books
+
+Thinking I will go with railway, http://railwayjs.com/
+starting over with that....
+
+Timetracking - what are the domain objects?
+people
+days
+projects
+clients
+timereports - person A worked for client B [on project C] for duration Y on date Z
+timesheets - show all the timereports for a given date range
+
+Web interface:
+Main page (once you are logged in)
+- Start by showing different domain object categories:
+-- Workers
+-- Clients & Projects
+-- Timesheets
+- maybe show some sort of summary of most recent time?
+Navigating to workers
+- show list of workers, allow CRUD
+Navigating to Clients & Projects
+- shows list of clients (allow CRUD)
+-- Show projects for each client
+
+I should spend some time with Julie to see what her workflow is when entering time.
+
+User reports time:
+person sends: in (or checking in)
+site responds: Hi Steve, are you at client 'Binder'?
+person reponds: yes
+site says: Ok, Steve checking in at Binder, HH:MM am
+
+later...
+person sends: out (or checking out)
+site reponds: Hi Steve, are you leaving client 'Binder'?
+person: yes
+site: Ok, Steve checking out at Binder at HH:MM pm. Spent HH:MM
+
+Recording time if you forgot
+person: report
+site: Hi Steve. I can take a time report. What day? (I understand MM-DD, today, yesterday, names of days)
+person: today, yesterday, monday, tuesday,
+site: OK, Monday April 30. Which client?
+1: Binder
+2: Pascoe
+Or enter a name.
+person: 1
+site: OK, Binder. How long were you there? (HH:MM)
+person: 4:00
+site: OK, Steve Donie spent 4:00 working at Binder 4-30-2012. Bye!
+
+
+Reporting time in one shot
+person: report 3:30 at Binder yesterday
+site: OK, Steve Donie spent 3:30 working at Binder 4-28-2012. Bye!
+
+Asking for help:
+person: help
+site:
+in - checkin
+out - checkout
+report - report your time
+report HH:MM at client date - full report
+timesheet - see your timesheet
+
+How does a new user register?
+person: hello
+site: Hi! You seem to be new here. What is your name? (First Last)
+person: Jane Doe
+site: Welcome to Fertile Ground, Jane. Who is supervising you today?
+1: Julie Donie
+2: Alexa Villalobos
+person: 1
+site: OK, I'll ask Julie to confirm your registration.
+
+site (To Julie): Jane Doe is registering with time tracker. Please reply '1' to confirm, or '2' to cancel.
+
+Julie: 1
+
+site: (To Julie): Thanks Julie, Jane is now registered.
+site: (To Jane): Thanks Jane! You are now registered. Send 'help' for help any time.
+
+OR, to handle the cancel case...
+Julie: 2
+site: (To Julie): Thanks Julie - registration for Jane has been cancelled.
+site: (To Jane): I'm sorry Jane, but Julie has cancelled your registration.
+
+For the website:
+login
+
+show timesheets by user, by client
+admin stuff - CRUD workers, clients, TimeEntries
+interact with schedule to know what clients are likely to be worked each day
+
+How do I want to do this?
+do I want to learn node AND twilio AND knockout and backbone?
+
+
+Models:
+  Worker
+    name
+    role
+    email
+    sms
+    password
+  Client
+    name
+  TimeEntry
+    WorkerName
+    ClientName
+    Date
+    Duration
+
+What database to use? probably postgres is the easiest for me - less to learn than going with redis
+redis is a key value store. picking good keys is important
+- will need to learn how to design a simple schema
