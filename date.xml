@@ -7,8 +7,8 @@
 	<!-- Main gramar rule -->
 	<rule id="main" scope="public">
 		<one-of>
-			<ruleref uri="#HumanDates" />
-			<ruleref uri="#MonthDayYear" />
+			<item> <ruleref uri="#HumanDates" /> </item>
+			<item> <ruleref uri="#MonthDayYear" /> </item>
 		</one-of>
 	</rule>
 	
