@@ -1,3 +1,5 @@
+answer();
+
 log ("receiving " + currentCall.channel + " call from " + currentCall.callerId);
 
 // If this is a voice call, use the voice path. If it is SMS or IM, use the text path.
