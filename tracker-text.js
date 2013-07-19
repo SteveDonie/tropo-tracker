@@ -28,21 +28,21 @@ function lookupWorker(phoneNumber) {
 // MAIN
 answer();
 
-log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerId());
+log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerId);
 
 log("Incoming call info [state:" + currentCall.state() +
-						",callerID:" + currentCall.callerID() + 
-						",calledID:" + currentCall.calledID() +
-						",callerName:" + currentCall.callerName() + 
-						",calledName:" + currentCall.calledName())
+						",callerID:" + currentCall.callerID + 
+						",calledID:" + currentCall.calledID +
+						",callerName:" + currentCall.callerName + 
+						",calledName:" + currentCall.calledName)
 
-var worker = lookupWorker(currentCall.callerId());
+var worker = lookupWorker(currentCall.callerId);
 
 if (worker == null) {
 	worker = ask ("Welcome to the Fertile Ground Time Tracker. What is your name?",
 		{
 		choices: listOptions(workers),
-		timeout: 90,
+		timeout: 90
 		});
 }
 var flowMethod = ask("Hi " + worker + ". There are two ways to interact with this system by SMS. You can use 1) the interview method or 2) the direct entry method.");
