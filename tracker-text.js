@@ -76,7 +76,7 @@ function handleRegistration(newUserName) {
 function handleTimeEntry(timeEntryString) {
 	if (isValidTimeEntry(timeEntryString)){
 		var timeEntry = parseTimeEntry(timeEntryString);
-		say ("OK, recorded that " + timeEntry.employee + " worked " + timeEntry.hours + " at " + timeEntry.client + " on " + timeEntry.date);
+		say ("OK, recorded that " + timeEntry.employee + " worked " + timeEntry.hours + " hours at " + timeEntry.client + " on " + timeEntry.date.toDateString());
 	}
 }
 
