@@ -28,8 +28,11 @@ function handleTextDirectInput() {
 }
 
 function handleKnownEmployee(employee) {
-	if (isValidTimeEntry(currentCall.InitialText)) {
-		handleTimeEntry(currentCall.InitialText);
+	var text = currentCall.initialText;
+	log ("########################################## I know you! '" + employee + "' said '" + text + "'");
+
+	if (isValidTimeEntry(text)) {
+		handleTimeEntry(text);
 	} else {
 		handleTextDirectInput();
 	}
