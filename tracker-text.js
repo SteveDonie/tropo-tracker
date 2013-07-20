@@ -80,13 +80,18 @@ function handleTimeEntry(timeEntryString) {
 	}
 }
 
-// This should always have three parts - client, hours, date. Requires that currentCall.callerID is a known employee number.
+// This should either have three parts - (client, hours, date) or two parts (client, hours). 
+// Requires that currentCall.callerID is a known employee number.
 function parseTimeEntry(timeEntryString) {
 	log ("########################################## parsing time entry in '" + timeEntryString + "'");
 	var parts = timeEntryString.split(" ");
 	var parsedClient = parts[0];
 	var parsedHours = parseFloat(parts[1]);
-	var parsedDate = parseDate(parts[2]);
+	var date = "today";
+	if (parts.length == 3) {
+		date = parts[2];
+	}
+	var parsedDate = parseDate(date);
 	
 	return { 
 		employee: lookupEmployee(),
