@@ -139,7 +139,7 @@ function parseDate(dateString) {
 Array.prototype.contains = function(obj) {
     var i = this.length;
     while (i--) {
-        if (this[i] === obj) {
+        if (this[i].toLowerCase() == obj.toLowerCase()) {
             return true;
         }
     }
