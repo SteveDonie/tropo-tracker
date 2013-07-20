@@ -33,7 +33,7 @@ function handleKnownEmployee(employee) {
 	}
 }
 
-function isValidTimeEntry(text) {
+function isValidTimeEntry(timeEntryString) {
 	var parts = timeEntryString.split(" ");
 	if (parts.length < 2 || parts.length > 3) {
 		return false;
