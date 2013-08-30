@@ -116,7 +116,7 @@ function isValidClient(clientName) {
 }
 
 function isValidHours(hours) {
-	return (parseFloat(hours) != NaN);
+	return (!isNaN(hours));
 }
 
 function isValidDate(dateString) {
@@ -141,7 +141,7 @@ function parseDate(dateString) {
 	if (parts.length == 2) {
 		var monthPart = parts[0];
 		var dayPart = parts[1];
-		if (parseInt(monthPart) == NaN || parseInt(dayPart) == NaN) {
+		if (isNaN(monthPart) || isNaN(dayPart)) {
 			return null
 		}
 		var finalDate = new Date();
