@@ -14,11 +14,11 @@ var clients = ["Binder","Donie"];
 function lookupEmployee() {
 	for (var employee in employees) {
 		if (employees[employee].number == currentCall.callerID) {
-			log ("########################################## found Employee " + employee);
+			log ("########################################## found Employee " + employee + "\r\n");
 			return employee;
 		}
 	}
-	log ("########################################## no employee found");
+	log ("########################################## no employee found\r\n");
 	return null;
 }
 
@@ -35,7 +35,7 @@ function handleTextDirectInput() {
 
 function handleKnownEmployee(employee) {
 	var text = currentCall.initialText;
-	log ("########################################## I know you! '" + employee + "' said '" + text + "'");
+	log ("########################################## I know you! '" + employee + "' said '" + text + "'\r\n");
 
 	if (isValidTimeEntry(text)) {
 		handleTimeEntry(text);
@@ -48,7 +48,7 @@ function handleKnownEmployee(employee) {
 // the system uses today's date.
 // client hours [date]
 function isValidTimeEntry(timeEntryString) {
-	log ("########################################## checking for valid time entry in '" + timeEntryString + "'");
+	log ("########################################## checking for valid time entry in '" + timeEntryString + "'\r\n");
 	var parts = timeEntryString.split(" ");
 	if (parts.length < 2 || parts.length > 3) {
 		say ("A valid response must have client and hours. It can also include the date. '" + timeEntryString + "' has " + parts.length + " words.");
@@ -93,7 +93,7 @@ function handleTimeEntry(timeEntryString) {
 // This should either have three parts - (client, hours, date) or two parts (client, hours). 
 // Requires that currentCall.callerID is a known employee number.
 function parseTimeEntry(timeEntryString) {
-	log ("########################################## parsing time entry in '" + timeEntryString + "'");
+	log ("########################################## parsing time entry in '" + timeEntryString + "'\r\n");
 	var parts = timeEntryString.split(" ");
 	var parsedClient = parts[0];
 	var parsedHours = parseFloat(parts[1]);
@@ -127,7 +127,7 @@ function isValidDate(dateString) {
 // It returns a full javascript Date object that is set to current time on 
 // the date specified in the current year, or null if it is not a valid date.
 function parseDate(dateString) {
-	log ("########################################## parsing date '" + dateString + "'");
+	log ("########################################## parsing date '" + dateString + "'\r\n");
 	var parts = dateString.split("-");
 	if (parts.length < 1 || parts.length > 2) {
 		return null;
@@ -164,7 +164,7 @@ Array.prototype.contains = function(obj) {
 // MAIN
 answer();
 
-log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerID);
+log ("########################################## receiving " + currentCall.channel + " call from " + currentCall.callerID + "\r\n");
 
 var employee = lookupEmployee();
 
