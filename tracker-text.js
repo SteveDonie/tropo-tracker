@@ -1,9 +1,3 @@
-﻿// Amazon Secret FNzIrll8Yfo0NYOxd8blnAPtlLgpiJz0sBf8BLTA
-// Amazon Access KeyId AKIAITOH4P3RZYL3PN4A
-
-
-// https://sdb.amazonaws.com?SelectExpression=select%20*%20from%20employees&Action=Select&Version=2009-04-15&AWSAccessKeyId=AKIAITOH4P3RZYL3PN4A&SignatureVersion=2&SignatureMethod=HmacSHA1&Timestamp=2013-07-22T13%3A38%3A21.000Z&Signature=R6t9Es8qkqQ%2BoJKf2Qt1POV7Z6w%3D
-
 var employees = { 	"Julie" : { fullName: "Julie Donie",      number: "15126190419", roles: ["Admin","Supervisor"] },
 					"Steve" : { fullName: "Steve Donie",      number: "15127977822", roles: ["Admin"] },
 					"Alexa" : { fullName: "Alexa Villalobos", number: "12176498591", roles: ["Admin","Supervisor"] } 
